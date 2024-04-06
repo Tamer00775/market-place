@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class User {
+public class User extends AbstractEntity{
 
     /**
      * Id of user.

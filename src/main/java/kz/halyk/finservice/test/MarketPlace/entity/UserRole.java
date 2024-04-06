@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "user_role")
-public class UserRole {
+public class UserRole extends AbstractEntity{
 
     @Id
     @Column(name = "id")
@@ -34,9 +34,13 @@ public class UserRole {
     private Role role;
 
     @Column(name = "active")
+    @Getter
+    @Setter
     private Boolean isActive;
 
     @Column(name = "deleted", columnDefinition = "boolean default false")
+    @Getter
+    @Setter
     private Boolean isDeleted = false;
 
 }

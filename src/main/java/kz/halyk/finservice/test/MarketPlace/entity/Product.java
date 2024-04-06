@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product extends AbstractEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +30,14 @@ public class Product {
     private Boolean isDeleted = false;
 
     @Column(name = "price", nullable = false)
+    @Getter
+    @Setter
     private Integer price;
 
     @OneToOne
     @JoinColumn(name = "category_id")
+    @Getter
+    @Setter
     private Category category;
 
 }
