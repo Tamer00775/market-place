@@ -6,4 +6,5 @@
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <include file="/db/changelog/20240406115500_add_entities.sql" relativeToChangelogFile="false"/>
     <include file="/db/changelog/20240406142800_add_categories.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/20240406154000_add_products.sql" relativeToChangelogFile="false"/>
 </databaseChangeLog>

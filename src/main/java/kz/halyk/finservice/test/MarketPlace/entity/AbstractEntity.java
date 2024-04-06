@@ -1,5 +1,6 @@
 package kz.halyk.finservice.test.MarketPlace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.Column;
@@ -11,5 +12,6 @@ import java.time.LocalDateTime;
 public class AbstractEntity {
     @Column(name = "created_date", updatable = false)
     @Getter
+    @JsonIgnore
     private LocalDateTime createdDate = LocalDateTime.now();
 }
