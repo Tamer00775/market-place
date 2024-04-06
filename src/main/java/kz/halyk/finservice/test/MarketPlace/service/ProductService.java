@@ -3,7 +3,6 @@ package kz.halyk.finservice.test.MarketPlace.service;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductCreateDto;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductDto;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductSearchDto;
-import kz.halyk.finservice.test.MarketPlace.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

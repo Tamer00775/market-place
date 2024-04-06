@@ -1,8 +1,6 @@
 package kz.halyk.finservice.test.MarketPlace.service;
 
 import kz.halyk.finservice.test.MarketPlace.dto.category.CategoryDto;
-import kz.halyk.finservice.test.MarketPlace.entity.Category;
-import kz.halyk.finservice.test.MarketPlace.enums.CategoryCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
