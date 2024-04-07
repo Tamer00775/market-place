@@ -80,7 +80,7 @@ public class AuthServiceImpl implements AuthService {
     private UserRole fillUserRole(User user) {
         UserRole userRole = new UserRole();
         userRole.setUser(user);
-        userRole.setIsActive(true);
+        userRole.setActive(true);
         userRole.setIsDeleted(false);
         Optional<Role> byCode = roleRepository.findByCode(UserRoleEnum.ADMIN.name());
         byCode.ifPresent(userRole::setRole);
