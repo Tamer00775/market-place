@@ -1,7 +1,7 @@
 package kz.halyk.finservice.test.MarketPlace.security;
 
 import kz.halyk.finservice.test.MarketPlace.entity.User;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class PersonDetails implements UserDetails {
 
@@ -60,5 +60,9 @@ public class PersonDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 }

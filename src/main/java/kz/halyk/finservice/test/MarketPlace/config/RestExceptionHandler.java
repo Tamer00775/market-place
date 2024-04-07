@@ -1,8 +1,9 @@
 package kz.halyk.finservice.test.MarketPlace.config;
 
-import kz.halyk.finservice.test.MarketPlace.util.MarketPlaceException;
+import kz.halyk.finservice.test.MarketPlace.exception.MarketPlaceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -33,6 +34,6 @@ public class RestExceptionHandler {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        return ResponseEntity.ok(errors);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

@@ -1,6 +1,5 @@
 package kz.halyk.finservice.test.MarketPlace.entity;
 
-import kz.halyk.finservice.test.MarketPlace.enums.CategoryCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,10 +17,9 @@ public class Category extends AbstractEntity{
     private Long id;
 
     @Column(name = "category_code", nullable = false, length = 50)
-    @Enumerated(value = EnumType.STRING)
     @Getter
     @Setter
-    private CategoryCode categoryCode;
+    private String categoryCode;
 
     @Column(name = "description")
     @Getter

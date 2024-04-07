@@ -7,6 +7,7 @@ import kz.halyk.finservice.test.MarketPlace.dto.user.UserRegistrationDto;
 import java.util.Map;
 
 public interface AuthService {
+
     Map<String, String> login(AuthDto authDto);
 
     UserDto register(UserRegistrationDto userRegistrationDto);

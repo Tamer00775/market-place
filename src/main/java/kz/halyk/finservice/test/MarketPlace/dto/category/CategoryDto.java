@@ -2,11 +2,11 @@ package kz.halyk.finservice.test.MarketPlace.dto.category;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import kz.halyk.finservice.test.MarketPlace.enums.CategoryCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -16,7 +16,8 @@ public class CategoryDto {
     private Long id;
     @NotNull(message = "The category code of the product must be not null.")
     @ApiModelProperty("Category code")
-    private CategoryCode categoryCode;
+    @Size(max = 50, message = "Maximum characters in code must be less than 50")
+    private String categoryCode;
     @ApiModelProperty("Description of category")
     private String description;
 }

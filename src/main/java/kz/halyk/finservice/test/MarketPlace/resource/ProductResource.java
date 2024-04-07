@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,8 +59,7 @@ public class ProductResource {
 
     @PutMapping("/{id}")
     @ApiOperation("Function to update products with id")
-    public ResponseEntity<ProductDto> update(@PathVariable Long id, @RequestBody ProductCreateDto productDto) {
+    public ResponseEntity<ProductDto> update(@PathVariable Long id, @RequestBody @Valid ProductCreateDto productDto) {
         return ResponseEntity.ok(productService.updateProduct(id, productDto));
     }
-
 }

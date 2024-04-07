@@ -21,6 +21,7 @@ import javax.validation.Valid;
 @Validated
 @Api("Resource about categories of product")
 public class CategoryResource {
+
     private final CategoryService categoryService;
 
     @GetMapping

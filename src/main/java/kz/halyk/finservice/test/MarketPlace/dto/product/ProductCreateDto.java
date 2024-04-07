@@ -2,8 +2,6 @@ package kz.halyk.finservice.test.MarketPlace.dto.product;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import kz.halyk.finservice.test.MarketPlace.enums.CategoryCode;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Builder
 @Getter
 @Setter
 @ToString
@@ -30,10 +27,10 @@ public class ProductCreateDto {
     private String description;
 
     @NotNull(message = "The price of the product must be not null.")
-    @Min(value = 10, message = "The minimum price of the product must be greater than or equal to 10.")
+    @Min(value = 1, message = "The minimum price of the product must be greater than or equal to 10.")
     @ApiModelProperty("Price of product")
     private Integer price;
     @NotNull(message = "The category code of the product must be not null.")
     @ApiModelProperty("Category code of product")
-    private CategoryCode categoryCode;
+    private String categoryCode;
 }
