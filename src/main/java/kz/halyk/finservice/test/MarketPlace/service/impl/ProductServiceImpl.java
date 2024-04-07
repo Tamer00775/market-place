@@ -1,7 +1,7 @@
 package kz.halyk.finservice.test.MarketPlace.service.impl;
 
-import kz.halyk.finservice.test.MarketPlace.converter.ProductCreateConverter;
-import kz.halyk.finservice.test.MarketPlace.converter.ProductDtoConverter;
+import kz.halyk.finservice.test.MarketPlace.converter.product.ProductCreateConverter;
+import kz.halyk.finservice.test.MarketPlace.converter.product.ProductDtoConverter;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductCreateDto;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductDto;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductSearchDto;
@@ -9,10 +9,10 @@ import kz.halyk.finservice.test.MarketPlace.entity.Product;
 import kz.halyk.finservice.test.MarketPlace.repository.ProductRepository;
 import kz.halyk.finservice.test.MarketPlace.service.ProductService;
 import kz.halyk.finservice.test.MarketPlace.service.SpecificationService;
-import kz.halyk.finservice.test.MarketPlace.util.MarketPlaceException;
-import lombok.AccessLevel;
+import kz.halyk.finservice.test.MarketPlace.exception.MarketPlaceException;
+import kz.halyk.finservice.test.MarketPlace.util.validator.product_create.ProductCreateValidator;
+import kz.halyk.finservice.test.MarketPlace.util.validator.product_search.ProductSearchValidator;
 import lombok.AllArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,20 +22,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class ProductServiceImpl implements ProductService {
-    SpecificationService specificationService;
-    CategoryServiceImpl categoryService;
+    private final SpecificationService specificationService;
+    private final CategoryServiceImpl categoryService;
 
-    ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    ProductCreateConverter productCreateConverter;
-    ProductDtoConverter productDtoConverter;
+    private final ProductCreateConverter productCreateConverter;
+    private final ProductDtoConverter productDtoConverter;
+
+    private final List<ProductSearchValidator> searchValidatorList;
+    private final List<ProductCreateValidator> createValidatorList;
 
     @Override
     @Transactional(readOnly = true)
@@ -43,7 +46,9 @@ public class ProductServiceImpl implements ProductService {
         log.debug("start searching product with id {}", id);
         Optional<Product> byId = productRepository.findById(id);
         if (byId.isEmpty()) {
-            throw new MarketPlaceException(String.format("Product with id %s not found", id));
+            throw new MarketPlaceException(String.format("Product with id %s not found", id),
+                    LocalDateTime.now(),
+                    HttpStatus.NOT_FOUND);
         }
         return productDtoConverter.convert(byId.get());
     }
@@ -58,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductDto createProduct(ProductCreateDto productCreateDto) {
+        createValidation(productCreateDto);
         Product convert = productCreateConverter.convert(productCreateDto);
         assert convert != null;
         return productDtoConverter.convert(productRepository.save(convert));
@@ -77,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
             product.setProductName(productDto.getProductName());
         }
         if (productDto.getCategoryCode() != null && !productDto.getCategoryCode().equals(product.getCategory().getCategoryCode())) {
-            product.setCategory(categoryService.findCategoryByCode(productDto.getCategoryCode().name()));
+            product.setCategory(categoryService.findCategoryByCode(productDto.getCategoryCode()));
         }
         if (productDto.getPrice() != null && productDto.getPrice().equals(product.getPrice())) {
             product.setPrice(productDto.getPrice());
@@ -94,8 +100,26 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(readOnly = true)
     public Page<ProductDto> search(ProductSearchDto searchDto, Pageable pageable) {
+        searchValidatorList.forEach(productSearchValidator -> {
+            productSearchValidator.validate(searchDto);
+        });
         log.info("start searching products");
         Specification<Product> specification = specificationService.getProductSpecification(searchDto);
         return productRepository.findAll(specification, pageable).map(productDtoConverter::convert);
+    }
+
+    @Override
+    public Optional<ProductDto> findByProductName(String productName) {
+        Optional<Product> byProductName = productRepository.findByProductName(productName);
+        if (byProductName.isEmpty()) {
+            return Optional.empty();
+        }
+        return byProductName.map(productDtoConverter::convert);
+    }
+
+    private void createValidation(ProductCreateDto productCreateDto) {
+        createValidatorList.forEach(validator -> {
+            validator.validate(productCreateDto);
+        });
     }
 }

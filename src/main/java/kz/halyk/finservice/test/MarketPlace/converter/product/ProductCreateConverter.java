@@ -1,4 +1,4 @@
-package kz.halyk.finservice.test.MarketPlace.converter;
+package kz.halyk.finservice.test.MarketPlace.converter.product;
 
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductCreateDto;
 import kz.halyk.finservice.test.MarketPlace.entity.Product;
@@ -18,7 +18,7 @@ public class ProductCreateConverter implements Converter<ProductCreateDto, Produ
         product.setProductName(source.getProductName());
         product.setPrice(source.getPrice());
         product.setDescription(source.getDescription());
-        product.setCategory(categoryServiceImpl.findCategoryByCode(source.getCategoryCode().toString()));
+        product.setCategory(categoryServiceImpl.findCategoryByCode(source.getCategoryCode()));
         return product;
     }
 }

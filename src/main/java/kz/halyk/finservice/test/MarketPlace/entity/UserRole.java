@@ -13,6 +13,7 @@ public class UserRole extends AbstractEntity{
     @Column(name = "id")
     @Getter
     @Setter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /***
@@ -36,7 +37,7 @@ public class UserRole extends AbstractEntity{
     @Column(name = "active")
     @Getter
     @Setter
-    private Boolean isActive;
+    private boolean isActive;
 
     @Column(name = "deleted", columnDefinition = "boolean default false")
     @Getter

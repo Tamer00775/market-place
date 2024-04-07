@@ -2,15 +2,15 @@ package kz.halyk.finservice.test.MarketPlace.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "_user")
 @Getter
 @Setter
-@ToString
 public class User extends AbstractEntity{
 
     /**
@@ -50,4 +50,11 @@ public class User extends AbstractEntity{
      */
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @OneToOne(mappedBy = "user")
+    private UserAuth userAuth;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserRole> userRoleList;
+
 }

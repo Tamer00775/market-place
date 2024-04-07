@@ -1,4 +1,4 @@
-package kz.halyk.finservice.test.MarketPlace.util;
+package kz.halyk.finservice.test.MarketPlace.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

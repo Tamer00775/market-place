@@ -1,5 +1,6 @@
-package kz.halyk.finservice.test.MarketPlace.converter;
+package kz.halyk.finservice.test.MarketPlace.converter.product;
 
+import kz.halyk.finservice.test.MarketPlace.converter.category.CategoryDtoConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductDto;

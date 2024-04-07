@@ -13,9 +13,12 @@ public class UserAuth extends AbstractEntity{
     @Id
     @Column(name = "id")
     @Getter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "password_hash", nullable = false)
+    @Getter
+    @Setter
     private String password;
 
     @Column(name = "status")
@@ -27,7 +30,7 @@ public class UserAuth extends AbstractEntity{
     @Column(name = "deleted", columnDefinition = "boolean default false")
     @Getter
     @Setter
-    private Boolean isDeleted = false;
+    private boolean isDeleted = false;
 
     @OneToOne
     @JoinColumn(name = "user_id")
