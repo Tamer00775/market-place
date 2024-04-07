@@ -1,7 +1,7 @@
 package kz.halyk.finservice.test.MarketPlace.service.impl;
 
-import kz.halyk.finservice.test.MarketPlace.converter.CategoryConverter;
-import kz.halyk.finservice.test.MarketPlace.converter.CategoryDtoConverter;
+import kz.halyk.finservice.test.MarketPlace.converter.category.CategoryConverter;
+import kz.halyk.finservice.test.MarketPlace.converter.category.CategoryDtoConverter;
 import kz.halyk.finservice.test.MarketPlace.dto.category.CategoryDto;
 import kz.halyk.finservice.test.MarketPlace.entity.Category;
 import kz.halyk.finservice.test.MarketPlace.enums.CategoryCode;

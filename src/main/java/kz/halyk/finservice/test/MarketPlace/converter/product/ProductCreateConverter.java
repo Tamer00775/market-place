@@ -1,4 +1,4 @@
-package kz.halyk.finservice.test.MarketPlace.converter;
+package kz.halyk.finservice.test.MarketPlace.converter.product;
 
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductCreateDto;
 import kz.halyk.finservice.test.MarketPlace.entity.Product;

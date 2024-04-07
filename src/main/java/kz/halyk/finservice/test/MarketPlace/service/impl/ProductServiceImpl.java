@@ -1,7 +1,7 @@
 package kz.halyk.finservice.test.MarketPlace.service.impl;
 
-import kz.halyk.finservice.test.MarketPlace.converter.ProductCreateConverter;
-import kz.halyk.finservice.test.MarketPlace.converter.ProductDtoConverter;
+import kz.halyk.finservice.test.MarketPlace.converter.product.ProductCreateConverter;
+import kz.halyk.finservice.test.MarketPlace.converter.product.ProductDtoConverter;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductCreateDto;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductDto;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductSearchDto;
