@@ -8,4 +8,6 @@
     <include file="/db/changelog/20240406142800_add_categories.sql" relativeToChangelogFile="false"/>
     <include file="/db/changelog/20240406154000_add_products.sql" relativeToChangelogFile="false"/>
     <include file="/db/changelog/20240407110400_add_roles.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/20240408044400_add_alter_table.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/20240408051200_add_default_user.sql" relativeToChangelogFile="false"/>
 </databaseChangeLog>
