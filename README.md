@@ -4,7 +4,7 @@ A small test application from Halyk Fin Service. It was necessary to implement a
 
 ## Techologies: 
 - Java 11
-- Spring Boot 2.58
+- Spring Boot 2.5.8
 - Spring Data Jpa, Validation, Spring Test, Converter
 - Postgresql
 - Lombok
