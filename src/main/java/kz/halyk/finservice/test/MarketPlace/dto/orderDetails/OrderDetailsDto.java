@@ -15,4 +15,5 @@ public class OrderDetailsDto {
     private Integer totalPrice;
     private User user;
     private Product product;
+    private PaymentDetailsDto paymentDetailsDto;
 }

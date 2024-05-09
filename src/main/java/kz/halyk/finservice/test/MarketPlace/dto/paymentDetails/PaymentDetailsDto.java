@@ -10,13 +10,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PaymentDetailsDto {
-    private Long id;
-    private String productName;
-    private String description;
-    private Integer quantity;
-    private Integer totalPrice;
-    private Boolean isDeleted;
     private PaymentStatus paymentStatus;
-    private UserPayment userPayment;
-    private OrderDetails orderDetails;
 }

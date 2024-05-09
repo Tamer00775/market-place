@@ -17,7 +17,6 @@ public class CartItemDtoConverter implements Converter<CartItem, CartItemDto> {
         dto.setQuantity(source.getQuantity());
         dto.setTotalPrice(source.getTotalPrice());
         dto.setIsDeleted(source.getIsDeleted());
-        dto.setUser(source.getUser());
         dto.setProduct(source.getProduct());
         return dto;
     }

@@ -8,15 +8,18 @@ import kz.halyk.finservice.test.MarketPlace.entity.UserPayment;
 import kz.halyk.finservice.test.MarketPlace.exception.MarketPlaceException;
 import kz.halyk.finservice.test.MarketPlace.repository.UserPaymentRepository;
 import kz.halyk.finservice.test.MarketPlace.service.UserPaymentService;
+import kz.halyk.finservice.test.MarketPlace.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,6 +52,19 @@ public class UserPaymentServiceImpl implements UserPaymentService {
 
     @Override
     @Transactional(readOnly = true)
+    public UserPaymentDto findByUser() {
+        User user = Objects.requireNonNull(SecurityUtils.getCurrentPerson());
+        UserPayment userPayment = userPaymentRepository.findByUser(user).orElseThrow(
+                () -> new MarketPlaceException(String.format("UserPayment with user %b not found", user),
+                        LocalDateTime.now(),
+                        HttpStatus.BAD_REQUEST)
+        );
+        return userPaymentDtoConverter.convert(userPayment);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
     public List<UserPaymentDto> findAll() {
         return userPaymentRepository
                 .findAll()
@@ -76,7 +92,6 @@ public class UserPaymentServiceImpl implements UserPaymentService {
         userPayment.setAccountNo(dto.getAccountNo());
         userPayment.setExpiry(dto.getExpiry());
         userPayment.setIsDeleted(dto.getIsDeleted());
-        userPayment.setUser(dto.getUser());
         return userPayment;
     }
 }

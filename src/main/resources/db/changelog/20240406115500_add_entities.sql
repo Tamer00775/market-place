@@ -116,8 +116,6 @@ CREATE TABLE payment_details (
                                  order_id INT REFERENCES order_details(id),
                                  payment_id INT REFERENCES user_payment(id),
                                  status_id INT REFERENCES payment_status(id),
-                                 quantity INT,
-                                 total_price INT NOT NULL CHECK (total_price > 0),
                                  deleted BOOLEAN DEFAULT FALSE,
                                  created_date TIMESTAMP
 );

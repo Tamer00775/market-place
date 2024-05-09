@@ -16,6 +16,9 @@ public interface UserPaymentService {
 
     UserPayment findByUser(User user);
 
+    UserPaymentDto findByUser();
+
+
     List<UserPaymentDto> findAll() ;
 
     Page<UserPaymentDto> findAll(Pageable pageable);

@@ -12,14 +12,7 @@ public class PaymentDetailsDtoConverter implements Converter<PaymentDetails, Pay
     @Override
     public PaymentDetailsDto convert(PaymentDetails source) {
         PaymentDetailsDto dto = new PaymentDetailsDto();
-        dto.setId(source.getId());
-        dto.setProductName(source.getProductName());
-        dto.setDescription(source.getDescription());
-        dto.setQuantity(source.getQuantity());
-        dto.setTotalPrice(source.getTotalPrice());
-        dto.setIsDeleted(source.getIsDeleted());
-        dto.setUserPayment(source.getUserPayment());
-        dto.setOrderDetails(source.getOrderDetails());
+        dto.setPaymentStatus(source.getPaymentStatus());
         return dto;
     }
 }

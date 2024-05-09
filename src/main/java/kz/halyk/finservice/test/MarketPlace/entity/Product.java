@@ -2,11 +2,13 @@ package kz.halyk.finservice.test.MarketPlace.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
+@ToString
 public class Product extends AbstractEntity {
     @Id
     @Column(name = "id")

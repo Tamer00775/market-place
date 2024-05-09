@@ -59,13 +59,6 @@ public class PaymentDetailsServiceImpl implements PaymentDetailsService {
     @Override
     public PaymentDetails create(PaymentDetailsDto dto) {
         PaymentDetails paymentDetails = new PaymentDetails();
-        paymentDetails.setProductName(dto.getProductName());
-        paymentDetails.setDescription(dto.getDescription());
-        paymentDetails.setQuantity(dto.getQuantity());
-        paymentDetails.setTotalPrice(dto.getTotalPrice());
-        paymentDetails.setIsDeleted(dto.getIsDeleted());
-        paymentDetails.setOrderDetails(dto.getOrderDetails());
-        paymentDetails.setUserPayment(dto.getUserPayment());
         paymentDetails.setPaymentStatus(dto.getPaymentStatus());
         return paymentDetails;
     }

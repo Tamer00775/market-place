@@ -19,7 +19,6 @@ public class UserPaymentDtoConverter implements Converter<UserPayment, UserPayme
         dto.setAccountNo(source.getAccountNo());
         dto.setExpiry(source.getExpiry());
         dto.setIsDeleted(source.getIsDeleted());
-        dto.setUser(source.getUser());
         return dto;
     }
 }

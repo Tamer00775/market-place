@@ -14,27 +14,6 @@ public class PaymentDetails extends AbstractEntity {
     @Getter
     private Long id;
 
-    @Column(name = "product_name", nullable = false, length = 100)
-    @Getter
-    @Setter
-    private String productName;
-
-    @Column(name = "description", nullable = false)
-    @Getter
-    @Setter
-    private String description;
-
-
-    @Column(name = "quantity", nullable = false)
-    @Getter
-    @Setter
-    private Integer quantity;
-
-    @Column(name = "total_price", nullable = false)
-    @Getter
-    @Setter
-    private Integer totalPrice;
-
     @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
     @Getter
     @Setter

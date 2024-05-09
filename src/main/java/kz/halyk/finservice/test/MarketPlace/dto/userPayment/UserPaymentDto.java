@@ -16,5 +16,4 @@ public class UserPaymentDto {
     private String accountNo;
     private LocalDate expiry;
     private Boolean isDeleted;
-    private User user;
 }

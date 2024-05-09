@@ -5,12 +5,10 @@ import kz.halyk.finservice.test.MarketPlace.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @Setter
-public class CartItemDto {
-    private Long id;
+public class CartItemRequestDto {
+    private Long productId;
     private Integer quantity;
-    private Integer totalPrice;
-    private Boolean isDeleted;
-    private Product product;
 }

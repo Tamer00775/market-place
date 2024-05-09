@@ -3,11 +3,15 @@ package kz.halyk.finservice.test.MarketPlace.service.impl;
 
 import kz.halyk.finservice.test.MarketPlace.converter.cartItem.CartItemDtoConverter;
 import kz.halyk.finservice.test.MarketPlace.dto.cartItem.CartItemDto;
+import kz.halyk.finservice.test.MarketPlace.dto.cartItem.CartItemRequestDto;
 import kz.halyk.finservice.test.MarketPlace.entity.CartItem;
+import kz.halyk.finservice.test.MarketPlace.entity.Product;
 import kz.halyk.finservice.test.MarketPlace.entity.User;
 import kz.halyk.finservice.test.MarketPlace.exception.MarketPlaceException;
 import kz.halyk.finservice.test.MarketPlace.repository.CartItemRepository;
+import kz.halyk.finservice.test.MarketPlace.repository.ProductRepository;
 import kz.halyk.finservice.test.MarketPlace.service.CartItemService;
+import kz.halyk.finservice.test.MarketPlace.utils.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +33,8 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
 
     private  CartItemDtoConverter cartItemDtoConverter;
+
+    private ProductRepository productRepository;
     @Override
     @Transactional(readOnly = true)
     public CartItem findById(Long id) {
@@ -58,6 +65,16 @@ public class CartItemServiceImpl implements CartItemService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<CartItemDto> findAllByUser() {
+        User user = Objects.requireNonNull(SecurityUtils.getCurrentPerson());
+        return cartItemRepository
+                .findAllByUser(user)
+                .stream()
+                .map(cartItemDtoConverter::convert)
+                .collect(Collectors.toList());
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Page<CartItemDto> findAll(Pageable pageable) {
@@ -75,8 +92,49 @@ public class CartItemServiceImpl implements CartItemService {
         cartItem.setQuantity(dto.getQuantity());
         cartItem.setTotalPrice(dto.getTotalPrice());
         cartItem.setIsDeleted(dto.getIsDeleted());
-        cartItem.setUser(dto.getUser());
         cartItem.setProduct(dto.getProduct());
-        return cartItem;
+        return cartItemRepository.save(cartItem);
+    }
+
+    public CartItemDto updateItem(CartItemRequestDto cartItemRequestDto) {
+        Long productId = cartItemRequestDto.getProductId();
+        Integer quantity = cartItemRequestDto.getQuantity();
+        User user = Objects.requireNonNull(SecurityUtils.getCurrentPerson());
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new MarketPlaceException(String.format("Product with id %d not found", productId),
+                        LocalDateTime.now(),
+                        HttpStatus.BAD_REQUEST)
+                );
+        if (product.getInventory().getQuantity() < quantity) {
+            throw new MarketPlaceException(
+                    String.format("Product with id %d has insufficient quantity", productId),
+                    LocalDateTime.now(),
+                    HttpStatus.CONFLICT
+            );
+        }
+        CartItem cartItem = cartItemRepository.findAllByUser(user)
+                .stream().filter(cartItem1 -> cartItem1.getProduct().getId().equals(productId))
+                .findAny()
+                .orElse(null);
+        if (cartItem == null) {
+            cartItem = new CartItem();
+            cartItem.setQuantity(0);
+            cartItem.setTotalPrice(0);
+            cartItem.setUser(user);
+        }
+        System.out.println("product" + product);
+        cartItem.setProduct(product);
+        cartItem.setQuantity(cartItem.getQuantity() + quantity);
+        cartItem.setTotalPrice(cartItem.getTotalPrice() + product.getPrice() * quantity);
+
+
+        if (cartItem.getQuantity() < 0) {
+            throw new MarketPlaceException(
+                    String.format("Product with id %d cannot have a quantity less than zero", productId),
+                    LocalDateTime.now(),
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+        return cartItemDtoConverter.convert(cartItemRepository.save(cartItem));
     }
 }
