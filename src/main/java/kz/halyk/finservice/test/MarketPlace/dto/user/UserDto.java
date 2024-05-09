@@ -4,10 +4,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @ApiModel("DTO for User")
+@ToString
 public class UserDto {
     @ApiModelProperty("Id of user")
     private Long id;

@@ -6,8 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "product")
-public class Product extends AbstractEntity {
+@Table(name = "payment_details")
+public class PaymentDetails extends AbstractEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,26 +24,41 @@ public class Product extends AbstractEntity {
     @Setter
     private String description;
 
+
+    @Column(name = "quantity", nullable = false)
+    @Getter
+    @Setter
+    private Integer quantity;
+
+    @Column(name = "total_price", nullable = false)
+    @Getter
+    @Setter
+    private Integer totalPrice;
+
     @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
     @Getter
     @Setter
     private Boolean isDeleted = false;
 
-    @Column(name = "price", nullable = false)
-    @Getter
-    @Setter
-    private Integer price;
-
-    @OneToOne
-    @JoinColumn(name = "category_id")
-    @Getter
-    @Setter
-    private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "inventory_id", nullable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     @Getter
     @Setter
-    private Inventory inventory;
+    private OrderDetails orderDetails;
+
+    @ManyToOne
+    @JoinColumn(name = "payment_id", nullable = false)
+    @Getter
+    @Setter
+    private UserPayment userPayment;
+
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
+    @Getter
+    @Setter
+    private PaymentStatus paymentStatus;
+
+
 
 }

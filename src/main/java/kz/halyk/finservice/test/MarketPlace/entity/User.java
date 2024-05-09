@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -44,6 +45,9 @@ public class User extends AbstractEntity{
      */
     @Column(name = "login", nullable = false, unique = true)
     private String login;
+
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate;
 
     /**
      * email of user.

@@ -5,45 +5,41 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+
 @Entity
-@Table(name = "product")
-public class Product extends AbstractEntity {
+@Table(name = "cart_item")
+public class CartItem extends AbstractEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private Long id;
 
-    @Column(name = "product_name", nullable = false, length = 100)
+    @Column(name = "quantity", nullable = false)
     @Getter
     @Setter
-    private String productName;
+    private Integer quantity;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "total_price", nullable = false)
     @Getter
     @Setter
-    private String description;
+    private Integer totalPrice;
 
     @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
     @Getter
     @Setter
     private Boolean isDeleted = false;
 
-    @Column(name = "price", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     @Getter
     @Setter
-    private Integer price;
-
-    @OneToOne
-    @JoinColumn(name = "category_id")
-    @Getter
-    @Setter
-    private Category category;
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "inventory_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     @Getter
     @Setter
-    private Inventory inventory;
+    private Product product;
 
 }
