@@ -3,15 +3,12 @@ package kz.halyk.finservice.test.MarketPlace.endpoints;
 
 import kz.halyk.finservice.test.MarketPlace.dto.cartItem.CartItemRequestDto;
 import kz.halyk.finservice.test.MarketPlace.dto.orderDetails.OrderDetailsDto;
-import kz.halyk.finservice.test.MarketPlace.dto.paymentDetails.PaymentDetailsDto;
-import kz.halyk.finservice.test.MarketPlace.entity.OrderDetails;
-import kz.halyk.finservice.test.MarketPlace.entity.User;
-import kz.halyk.finservice.test.MarketPlace.service.PaymentDetailsService;
+import kz.halyk.finservice.test.MarketPlace.dto.orderDetails.OrderDetailsRequestDto;
 import kz.halyk.finservice.test.MarketPlace.service.UserOrdersHistoryService;
-import kz.halyk.finservice.test.MarketPlace.service.impl.PaymentDetailsServiceImpl;
-import kz.halyk.finservice.test.MarketPlace.utils.SecurityUtils;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user/order")
 @AllArgsConstructor
-public class UserOrdersHistoryResource {
+@Slf4j
+public class UserOrdersResource {
 
     private final UserOrdersHistoryService service;
     @GetMapping("")
@@ -29,12 +27,8 @@ public class UserOrdersHistoryResource {
 
     @PostMapping("/make")
     public ResponseEntity<OrderDetailsDto> orderHistoryMake(
-            @RequestBody CartItemRequestDto cartItemRequestDto
+            @RequestBody @Validated OrderDetailsRequestDto orderDetailsRequestDto
     ) {
-        return ResponseEntity.ok().body(service.orderHistoryMake(cartItemRequestDto));
+        return ResponseEntity.ok().body(service.orderHistoryMake(orderDetailsRequestDto));
     }
-
-
-
-
 }

@@ -93,7 +93,7 @@ CREATE TABLE cart_item (
                            user_id INT REFERENCES _user(id),
                            product_id INT REFERENCES product(id),
                            quantity INT,
-                           total_price INT NOT NULL CHECK (total_price > 0),
+                           total_price INT NOT NULL CHECK (total_price >= 0),
                            deleted BOOLEAN DEFAULT FALSE,
                            created_date TIMESTAMP
 );

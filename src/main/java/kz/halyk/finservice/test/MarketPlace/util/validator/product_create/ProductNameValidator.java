@@ -21,14 +21,13 @@ public class ProductNameValidator implements ProductCreateValidator {
     @Autowired
     private ProductRepository productRepository;
 
-
     @Override
     public void validate(ProductCreateDto productCreateDto) {
         Optional<Product> byProductName = productRepository.findByProductName(productCreateDto.getProductName());
         if (byProductName.isPresent()) {
             throw new MarketPlaceException("Product Name must be unique.",
                     LocalDateTime.now(),
-                    HttpStatus.BAD_REQUEST);
+                    HttpStatus.CONFLICT);
         }
     }
 }
