@@ -3,10 +3,13 @@ package kz.halyk.finservice.test.MarketPlace.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
+import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "_user")
@@ -60,5 +63,12 @@ public class User extends AbstractEntity{
 
     @OneToMany(mappedBy = "user")
     private List<UserRole> userRoleList;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_subscribed_products",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Set<Product> subscribedProducts = new HashSet<>();
 
 }

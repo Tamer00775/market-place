@@ -13,22 +13,20 @@ import kz.halyk.finservice.test.MarketPlace.enums.UserRoleEnum;
 import kz.halyk.finservice.test.MarketPlace.enums.UserStatus;
 import kz.halyk.finservice.test.MarketPlace.repository.RoleRepository;
 import kz.halyk.finservice.test.MarketPlace.repository.UserAuthRepository;
-import kz.halyk.finservice.test.MarketPlace.repository.UserRepository;
 import kz.halyk.finservice.test.MarketPlace.repository.UserRoleRepository;
 import kz.halyk.finservice.test.MarketPlace.security.JwtUtil;
 import kz.halyk.finservice.test.MarketPlace.service.AuthService;
 import kz.halyk.finservice.test.MarketPlace.service.PersonDetailsService;
 import kz.halyk.finservice.test.MarketPlace.service.UserService;
+import kz.halyk.finservice.test.MarketPlace.util.validator.user_validator.UserValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,6 +44,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserAuthRepository userAuthRepository;
 
     private final UserDtoConverter userDtoConverter;
+    private final List<UserValidator> userValidators;
 
     @Override
     public Map<String, String> login(AuthDto authDto) {
@@ -64,6 +63,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public UserDto register(UserRegistrationDto userRegistrationDto) {
+        userValidators.forEach(userValidator -> {
+            userValidator.validateRegistrationDto(userRegistrationDto);
+        });
         User user = fillUserInformation(userRegistrationDto);
         UserAuth userAuth = fillUserAuth(user, userRegistrationDto);
         UserRole userRole = fillUserRole(user);

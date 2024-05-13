@@ -59,7 +59,13 @@ public class ProductResource {
 
     @PutMapping("/{id}")
     @ApiOperation("Function to update products with id")
-    public ResponseEntity<ProductDto> update(@PathVariable Long id, @RequestBody @Valid ProductCreateDto productDto) {
+    public ResponseEntity<ProductDto> update(@PathVariable Long id, @RequestBody ProductCreateDto productDto) {
         return ResponseEntity.ok(productService.updateProduct(id, productDto));
+    }
+
+    @PostMapping("/{id}/subscribe")
+    @ApiOperation("Function to subscribe user to sale of product")
+    public ResponseEntity<HttpStatus> subscribeUserToProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.subscribeUserToProduct(id));
     }
 }

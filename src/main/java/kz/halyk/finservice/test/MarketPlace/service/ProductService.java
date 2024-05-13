@@ -5,6 +5,7 @@ import kz.halyk.finservice.test.MarketPlace.dto.product.ProductDto;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductSearchDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 
 import java.util.Optional;
 
@@ -23,4 +24,6 @@ public interface ProductService {
     Page<ProductDto> search(ProductSearchDto searchDto, Pageable pageable);
 
     Optional<ProductDto> findByProductName(String productName);
+
+    HttpStatus subscribeUserToProduct(Long productId);
 }

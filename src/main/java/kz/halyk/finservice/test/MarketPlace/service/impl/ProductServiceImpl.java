@@ -6,12 +6,16 @@ import kz.halyk.finservice.test.MarketPlace.dto.product.ProductCreateDto;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductDto;
 import kz.halyk.finservice.test.MarketPlace.dto.product.ProductSearchDto;
 import kz.halyk.finservice.test.MarketPlace.entity.Product;
+import kz.halyk.finservice.test.MarketPlace.entity.User;
 import kz.halyk.finservice.test.MarketPlace.repository.ProductRepository;
+import kz.halyk.finservice.test.MarketPlace.service.NotificationService;
 import kz.halyk.finservice.test.MarketPlace.service.ProductService;
 import kz.halyk.finservice.test.MarketPlace.service.SpecificationService;
 import kz.halyk.finservice.test.MarketPlace.exception.MarketPlaceException;
+import kz.halyk.finservice.test.MarketPlace.service.UserService;
 import kz.halyk.finservice.test.MarketPlace.util.validator.product_create.ProductCreateValidator;
 import kz.halyk.finservice.test.MarketPlace.util.validator.product_search.ProductSearchValidator;
+import kz.halyk.finservice.test.MarketPlace.utils.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +36,8 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
     private final SpecificationService specificationService;
     private final CategoryServiceImpl categoryService;
+    private final NotificationService notificationService;
+    private final UserService userService;
 
     private final ProductRepository productRepository;
 
@@ -79,13 +86,16 @@ public class ProductServiceImpl implements ProductService {
                     HttpStatus.NOT_FOUND);
         }
         Product product = byId.get();
-        if (product.getProductName() != null && !productDto.getProductName().equals(product.getProductName())) {
+        if (productDto.getProductName() != null && !productDto.getProductName().equals(product.getProductName())) {
             product.setProductName(productDto.getProductName());
         }
         if (productDto.getCategoryCode() != null && !productDto.getCategoryCode().equals(product.getCategory().getCategoryCode())) {
             product.setCategory(categoryService.findCategoryByCode(productDto.getCategoryCode()));
         }
-        if (productDto.getPrice() != null && productDto.getPrice().equals(product.getPrice())) {
+        if (productDto.getPrice() != null && !productDto.getPrice().equals(product.getPrice())) {
+            if (product.getPrice() > productDto.getPrice()) {
+                notificationService.notifySubscribersAboutSaleProduct(product, true);
+            }
             product.setPrice(productDto.getPrice());
         }
         return productDtoConverter.convert(productRepository.save(product));
@@ -115,6 +125,30 @@ public class ProductServiceImpl implements ProductService {
             return Optional.empty();
         }
         return byProductName.map(productDtoConverter::convert);
+    }
+
+    @Override
+    @Transactional
+    public HttpStatus subscribeUserToProduct(Long productId) {
+        Optional<Product> byId = productRepository.findById(productId);
+        if (byId.isEmpty()) {
+            return HttpStatus.NOT_FOUND;
+        }
+        try {
+            User currentPerson = SecurityUtils.getCurrentPerson();
+            Product product = byId.get();
+            Set<User> subscribedUsers = product.getSubscribedUsers();
+            Set<Product> subscribedProducts = currentPerson.getSubscribedProducts();
+            subscribedProducts.add(product);
+            subscribedUsers.add(currentPerson);
+            product.setSubscribedUsers(subscribedUsers);
+
+            userService.save(currentPerson);
+            productRepository.save(product);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.UNAUTHORIZED;
+        }
     }
 
     private void createValidation(ProductCreateDto productCreateDto) {

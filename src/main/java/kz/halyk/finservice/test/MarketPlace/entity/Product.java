@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -48,4 +50,8 @@ public class Product extends AbstractEntity {
     @Setter
     private Inventory inventory;
 
+    @ManyToMany(mappedBy = "subscribedProducts")
+    @Getter
+    @Setter
+    private Set<User> subscribedUsers = new HashSet<>();
 }
