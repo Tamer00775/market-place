@@ -7,6 +7,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "user_role")
+@Getter
+@Setter
 public class UserRole extends AbstractEntity{
 
     @Id

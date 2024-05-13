@@ -2,9 +2,12 @@ spring:
   application:
       name: MarketPlace
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/fix
     username: postgres
-    password: 123456
+    password: Qasaqayj7
     driver-class-name: org.postgresql.Driver
 jwt:
   secret: Apwirjgpowkeofkwe
+
+server:
+  port: 8086

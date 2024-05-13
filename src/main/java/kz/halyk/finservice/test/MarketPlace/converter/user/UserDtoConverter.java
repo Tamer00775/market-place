@@ -11,6 +11,7 @@ public class UserDtoConverter implements Converter<User, UserDto> {
     @Override
     public UserDto convert(User source) {
         UserDto userDto = new UserDto();
+        userDto.setId(source.getId());
         userDto.setEmail(source.getEmail());
         userDto.setLogin(source.getLogin());
         userDto.setFirstName(source.getFirstName());

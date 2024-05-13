@@ -2,33 +2,30 @@ package kz.halyk.finservice.test.MarketPlace.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "category")
-@ToString
-public class Category extends AbstractEntity{
+@Table(name = "inventory")
+public class Inventory extends AbstractEntity {
     @Id
-    @Getter
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
 
-    @Column(name = "category_code", nullable = false, length = 50)
+    @Column(name = "quantity", nullable = false)
     @Getter
     @Setter
-    private String categoryCode;
+    private Integer quantity;
 
-    @Column(name = "description")
+    @Column(name = "description",columnDefinition = "text")
     @Getter
     @Setter
     private String description;
 
-    @Column(name = "deleted", columnDefinition = "boolean default false")
+    @Column(name = "deleted", nullable = false, columnDefinition = "boolean default false")
     @Getter
     @Setter
     private Boolean isDeleted = false;
-
 }
