@@ -29,8 +29,9 @@ public class NotificationServiceImpl implements NotificationService {
         }
         if (isSale) {
             subscribedUsers.forEach(user -> {
-                MessageDto messageDto = new MessageDto();
-                messageDto.setSendTo(user.getEmail());
+                MessageDto messageDto = MessageDto.builder()
+                        .sendTo(user.getEmail())
+                        .build();
                 constructMessageDto(messageDto, product, user);
                 messageService.sendMessage(messageDto);
             });

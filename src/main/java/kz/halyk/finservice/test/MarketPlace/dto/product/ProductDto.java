@@ -12,6 +12,8 @@ import lombok.Setter;
 @ApiModel("DTO for manipulation with product")
 public class ProductDto {
     @ApiModelProperty("Name of product")
+    private Long id;
+    @ApiModelProperty("Name of product")
     private String productName;
     @ApiModelProperty("Price of product")
     private Integer price;

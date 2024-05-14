@@ -2,12 +2,28 @@ spring:
   application:
       name: MarketPlace
   datasource:
-    url: jdbc:postgresql://localhost:5432/fix
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: Qasaqayj7
+    password: 123456
     driver-class-name: org.postgresql.Driver
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tamerlankartaev04@gmail.com
+    password: ybnjgykcybfydfit
+    smtp:
+      auth: true
+      starttls:
+        enable: true
 jwt:
   secret: Apwirjgpowkeofkwe
 
 server:
   port: 8086
+
+
+password-policy:
+  min-characters: 8
+  useUpperCase: true
+  useSpecificSymbols: false
+  useNumbers: true

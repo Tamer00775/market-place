@@ -2,12 +2,16 @@ package kz.halyk.finservice.test.MarketPlace.service.impl;
 
 
 import kz.halyk.finservice.test.MarketPlace.converter.orderDetails.OrderDetailsDtoConverter;
+import kz.halyk.finservice.test.MarketPlace.converter.product.ProductDtoConverter;
 import kz.halyk.finservice.test.MarketPlace.dto.orderDetails.OrderDetailsDto;
 import kz.halyk.finservice.test.MarketPlace.entity.OrderDetails;
+import kz.halyk.finservice.test.MarketPlace.entity.Product;
 import kz.halyk.finservice.test.MarketPlace.entity.User;
 import kz.halyk.finservice.test.MarketPlace.exception.MarketPlaceException;
 import kz.halyk.finservice.test.MarketPlace.repository.OrderDetailsRepository;
+import kz.halyk.finservice.test.MarketPlace.repository.ProductRepository;
 import kz.halyk.finservice.test.MarketPlace.service.OrderDetailsService;
+import kz.halyk.finservice.test.MarketPlace.service.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.criterion.Order;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +32,8 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     private final OrderDetailsRepository orderDetailsRepository;
 
     private final OrderDetailsDtoConverter orderDetailsDtoConverter;
+    private final ProductDtoConverter productDtoConverter;
+    private final ProductRepository productRepository;
 
     @Override
     public OrderDetailsDto findById(Long id) {
@@ -77,7 +84,8 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         orderDetails.setQuantity(dto.getQuantity());
         orderDetails.setTotalPrice(dto.getTotalPrice());
         orderDetails.setUser(dto.getUser());
-        orderDetails.setProduct(dto.getProduct());
+        Optional<Product> byId = productRepository.findById(dto.getProduct().getId());
+        byId.ifPresent(orderDetails::setProduct);
         return orderDetails;
     }
 }

@@ -3,6 +3,7 @@ package kz.halyk.finservice.test.MarketPlace.endpoints;
 
 import kz.halyk.finservice.test.MarketPlace.dto.cartItem.CartItemRequestDto;
 import kz.halyk.finservice.test.MarketPlace.dto.orderDetails.OrderDetailsDto;
+import kz.halyk.finservice.test.MarketPlace.dto.orderDetails.OrderDetailsRequestDto;
 import kz.halyk.finservice.test.MarketPlace.dto.paymentDetails.PaymentDetailsDto;
 import kz.halyk.finservice.test.MarketPlace.entity.OrderDetails;
 import kz.halyk.finservice.test.MarketPlace.entity.User;
@@ -28,10 +29,9 @@ public class UserOrdersHistoryResource {
     }
 
     @PostMapping("/make")
-    public ResponseEntity<OrderDetailsDto> orderHistoryMake(
-            @RequestBody CartItemRequestDto cartItemRequestDto
+    public ResponseEntity<OrderDetailsDto> orderHistoryMake(@RequestBody OrderDetailsRequestDto orderDetailsDto
     ) {
-        return ResponseEntity.ok().body(service.orderHistoryMake(cartItemRequestDto));
+        return ResponseEntity.ok().body(service.orderHistoryMake(orderDetailsDto));
     }
 
 

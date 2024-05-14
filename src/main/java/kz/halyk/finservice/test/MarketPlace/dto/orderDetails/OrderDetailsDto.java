@@ -1,6 +1,7 @@
 package kz.halyk.finservice.test.MarketPlace.dto.orderDetails;
 
 import kz.halyk.finservice.test.MarketPlace.dto.paymentDetails.PaymentDetailsDto;
+import kz.halyk.finservice.test.MarketPlace.dto.product.ProductDto;
 import kz.halyk.finservice.test.MarketPlace.entity.Product;
 import kz.halyk.finservice.test.MarketPlace.entity.User;
 import lombok.Getter;
@@ -14,6 +15,6 @@ public class OrderDetailsDto {
     private Integer quantity;
     private Integer totalPrice;
     private User user;
-    private Product product;
+    private ProductDto product;
     private PaymentDetailsDto paymentDetailsDto;
 }

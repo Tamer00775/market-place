@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -92,7 +93,8 @@ public class CartItemServiceImpl implements CartItemService {
         cartItem.setQuantity(dto.getQuantity());
         cartItem.setTotalPrice(dto.getTotalPrice());
         cartItem.setIsDeleted(dto.getIsDeleted());
-        cartItem.setProduct(dto.getProduct());
+        Optional<Product> byId = productRepository.findById(dto.getId());
+        byId.ifPresent(cartItem::setProduct);
         return cartItemRepository.save(cartItem);
     }
 

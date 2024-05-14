@@ -1,5 +1,6 @@
 package kz.halyk.finservice.test.MarketPlace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
@@ -59,6 +60,7 @@ public class User extends AbstractEntity{
     private String email;
 
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private UserAuth userAuth;
 
     @OneToMany(mappedBy = "user")
